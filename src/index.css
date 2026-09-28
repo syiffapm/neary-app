@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Moved out of the inline <style> tag that used to live in the root
+   NearyApp component. Google Fonts are now loaded from index.html instead
+   of an @import here, so only the keyframes and small utility rules stay. */
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+body {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #F20070;
+  outline-offset: 2px;
+}
+[data-hc="1"] :focus-visible {
+  outline: 3px solid #000F45;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #fff;
+}
+[data-hc="1"] input, [data-hc="1"] textarea, [data-hc="1"] select { border-color: #3A415C !important; }
+
+/* Reduce motion setting inside the app, in addition to the OS preference. */
+[data-reduce-motion="1"] *, [data-reduce-motion="1"] *::before, [data-reduce-motion="1"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes tourFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
