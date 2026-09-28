@@ -26,12 +26,14 @@ export function useTourController({ db, setDb, screen, tab, goTab, blocked }) {
   const stepMenu = run ? run.steps[run.i].menu : null;
   useEffect(() => { if (stepMenu && stepMenu !== tabRef.current) goTab(stepMenu); }, [stepMenu, run && run.i]); // eslint-disable-line
 
-  // First visit to a tab root starts that tab's tour, never during onboarding or a sheet.
+  // Only the Home screen auto-starts its tour on first visit. Other menus
+  // still have their own tour content (reachable via the "?" button, or
+  // "Take the full tour" in Profile), but never pop up uninvited.
   useEffect(() => {
-    if (!enabled || run || blocked || !TOUR_ORDER.includes(screen) || seen[screen]) return;
-    const id = setTimeout(() => start(screen, { auto: true }), 450);
+    if (!enabled || run || blocked || screen !== "home" || seen.home) return;
+    const id = setTimeout(() => start("home", { auto: true }), 450);
     return () => clearTimeout(id);
-  }, [enabled, run, blocked, screen, seen[screen]]); // eslint-disable-line
+  }, [enabled, run, blocked, screen, seen.home]); // eslint-disable-line
 
   useEffect(() => { if (run && !enabled) setRun(null); }, [run, enabled]);
 
